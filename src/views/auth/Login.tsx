@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { loginModel, ILoginForm } from '../../models/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { toast } from 'react-toastify';
-import { useAuth } from '../../hooks/useAuth'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import AuthApis from '../../apis/authApis';
+import { useAuth } from '../../hooks/useAuth';
 
 function Login() {
     // ** States
@@ -16,7 +16,7 @@ function Login() {
 
     // ** Hooks
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { checkAuth } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>();
 
     // ** Function to handle change
@@ -37,7 +37,7 @@ function Login() {
         const response: Iresponse | undefined = await AuthApis.login(payload)
 
         if (response) {
-            login(response?.data?.accessToken ?? '')
+            await checkAuth()
             toast.success('Logged in successfully')
             navigate('/')
         }

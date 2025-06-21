@@ -1,10 +1,8 @@
 import axios, { AxiosHeaders } from "axios"
 import handlingErrors from "../../utils/handlingErrors";
 
-const TOKEN: string | null = window.localStorage.getItem("accessToken") ?? null
 const headers: AxiosHeaders = new AxiosHeaders();
 
-headers.set('Authorization', `Bearer ${TOKEN}`);
 headers.set('Access-Control-Allow-Origin', '*');
 headers.set('Content-Type', 'application/json');
 

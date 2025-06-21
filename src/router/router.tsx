@@ -13,18 +13,12 @@ import NotFound from "../views/errors/NotFound";
 // ** Import useAuth context
 import {useAuth} from '../hooks/useAuth'
 
-// ** Import cookies 
-import Cookies from 'js-cookie';
-
 // ** router dom imports
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router";
 
 const Router = () => {
     // ** Hooks
-    const { access_Token } = useAuth();
-
-    // ** vars 
-    const token: string | undefined = access_Token && access_Token != '' ? access_Token : Cookies.get('access_Token')
+    const { authenticated } = useAuth();
 
     // ** routes of default layout
     const defaultLayoutRoutes = routes.filter((ele) => ele.layout === "default");
@@ -34,7 +28,7 @@ const Router = () => {
   
     // ** default layout
     function defaultLayout() {
-      if (!token || token == '') {
+      if (!authenticated) {
         return <Navigate to="/login" replace />
       }
       return (
@@ -47,10 +41,10 @@ const Router = () => {
   
     // ** auth layout
     function authLayout() {
-      if (token) {
+      if (authenticated) {
         return <Navigate to="/" replace />
       }
-      return (
+       return (
         <>
           <Outlet />
         </>

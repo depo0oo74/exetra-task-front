@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
 type AuthContextType = {
-  access_Token: string;
-  login: (access_Token: string) => void;
+  authenticated: boolean;
+  checkAuth: () => Promise<void>;
   logout: () => void;
 };
 

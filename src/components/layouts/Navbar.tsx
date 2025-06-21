@@ -13,7 +13,6 @@ function Navbar() {
     // ** Function to handle logout
     const handleLogout = () => {
         logout()
-        window.location.reload();
         navigate('/login')
     }
 
