@@ -19,7 +19,7 @@ function handlingErrors(errResp: ErrorResponse): void {
     const alertButton = document.createElement('button');
 
     alertButton.addEventListener('click', () => {
-        fireToast(errResp?.response?.data?.message ?? 'حدث خطأ في النظام !');
+        fireToast(errResp?.response?.data?.message ?? 'An Error occurred!');
     });
 
 
