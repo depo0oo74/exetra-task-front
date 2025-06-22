@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FormGroup, Label, Button, Form } from 'reactstrap'
-import { Link, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { useForm } from 'react-hook-form';
 import { ResetPassModel, IResetPassForm } from '../../models/auth'
 import { toast } from 'react-toastify';
