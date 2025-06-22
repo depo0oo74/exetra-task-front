@@ -1,27 +1,28 @@
 import { useState } from 'react';
 import { FormGroup, Label, Button, Form } from 'reactstrap'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { useForm } from 'react-hook-form';
-import { signUpModel, ISignUpForm } from '../../models/auth'
+import { ResetPassModel, IResetPassForm } from '../../models/auth'
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import AuthApis from '../../apis/authApis'
 
-function Signup() {
+function ResetPassword() {
     // ** States
-    const [payload, setPayload] = useState<ISignUpForm>(signUpModel)
+    const [payload, setPayload] = useState<IResetPassForm>(ResetPassModel)
     const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false)
     const [isCPasswordShown, setIsCPasswordShown] = useState<boolean>(false)
 
     // ** Hooks
     const navigate = useNavigate() 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<ISignUpForm>({
-        defaultValues: signUpModel
+    const { token } = useParams()
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<IResetPassForm>({
+        defaultValues: ResetPassModel
     });
 
     // ** Function to handle change
-    const handleChange = (name: keyof ISignUpForm, value: string) => {
+    const handleChange = (name: keyof IResetPassForm, value: string) => {
         setPayload(prevState => ({
             ...prevState,
             [name]: value
@@ -31,9 +32,9 @@ function Signup() {
 
     // ** Function to handle submit
     const onSubmit = async () => {
-        const response = await AuthApis.signup(payload)
+        const response = await AuthApis.resetPass(payload, token as string)
         if (response) {
-            toast.success('User created successfully. Login now')
+            toast.success('Your password has been reset successfully, Login now')
             navigate('/login')
         }
     }
@@ -42,50 +43,8 @@ function Signup() {
     return (
         <div className='auth-form'>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <h2>Create a new account</h2>
-                <p>Welcome, please enter your details to continue</p>
-                <p className='another-choice header-choice'>
-                  Already have an account ? <br /> <Link to="/login" className='btn'>Login now</Link>
-                </p>
-                <FormGroup>
-                    <Label for='username'>
-                        Username <sup>*</sup>
-                    </Label>
-                    <input
-                        {...register('username', {
-                            required: {value: true, message: 'Username is required'},
-                            minLength: {value: 3, message: 'Username must have at least 3 characters'}
-                        })}
-                        className='form-control'
-                        name='username'
-                        type='text'
-                        placeholder='username ...' 
-                        onChange={e => handleChange('username', e.target.value)}
-                        value={payload.username}
-                    />
-                    {errors?.username && <span className='error-msg'>{errors?.username?.message as string}</span>}
-                </FormGroup>
-                <FormGroup>
-                    <Label for='email'>
-                        Email <sup>*</sup>
-                    </Label>
-                    <input
-                        {...register('email', {
-                            required: {value: true, message: 'Email is required'},
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                 message: 'This email is not valid'
-                            },
-                        })}
-                        className='form-control'
-                        name='email'
-                        type='text'
-                        placeholder='Enter your email ...' 
-                        onChange={e => handleChange('email', e.target.value)}
-                        value={payload.email}
-                    />
-                    {errors?.email && <span className='error-msg'>{errors?.email?.message as string}</span>}
-                </FormGroup>
+                <h2>Reset your password</h2>
+                <p>Enter your new password to continue</p>
                 <FormGroup>
                     <Label for='password'>
                         Password <sup>*</sup>
@@ -137,10 +96,10 @@ function Signup() {
                     />
                     {errors?.cpassword && <span className='error-msg'>{errors?.cpassword?.message as string}</span>}
                 </FormGroup>
-                <Button type='submit' className='btn main-btn submit'>Sign up</Button>
+                <Button type='submit' className='btn main-btn submit'>Reset password</Button>
             </Form> 
         </div>
     )
 }
 
-export default Signup
+export default ResetPassword

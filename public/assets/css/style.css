@@ -53,6 +53,11 @@ span.error-msg {
     display: block;
     text-align: start;
 }
+sup {
+    color: var(--redColor);
+    font-weight: bold;
+    font-size: 12px;
+}
 /* start auth form */
 .auth-form {
     min-height: 100vh;
@@ -109,7 +114,7 @@ span.error-msg {
     opacity: 50%;
     font-size: 17px;
 }
-.auth-form form a.forget-password {
+.auth-form form a.forgot-password {
     color: var(--redColor);
     font-family: bold_font;
     display: block;

@@ -17,15 +17,17 @@ function Login() {
     // ** Hooks
     const navigate = useNavigate();
     const { checkAuth } = useAuth();
-    const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<ILoginForm>({
+        defaultValues: loginModel
+    });
 
-    // ** Function to handle change
-    const handleChange = (name: string, value: string) => {
+    const handleChange = (name: keyof ILoginForm, value: string) => {
         setPayload(prevState => ({
             ...prevState,
             [name]: value
-        }))
-    }
+        }));
+        setValue(name, value, { shouldValidate: true });
+    };
 
     // ** Function to handle submit
     const onSubmit = async () => {
@@ -51,7 +53,7 @@ function Login() {
                 <p>Enter your email and password to log in</p>
                 <FormGroup>
                     <Label for='email'>
-                        Email
+                        Email <sup>*</sup>
                     </Label>
                     <input
                         {...register('email', {
@@ -72,7 +74,7 @@ function Login() {
                 </FormGroup>
                 <FormGroup>
                     <Label for='password'>
-                        Password
+                        Password <sup>*</sup>
                     </Label>
                     <Button type='button' className='show-password' onClick={() => setIsPasswordShown(!isPasswordShown)}>
                         {isPasswordShown ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />} 
@@ -89,7 +91,7 @@ function Login() {
                         value={payload.password}
                     />
                     {errors?.password && <span className='error-msg'>{errors?.password?.message as string}</span>}
-                    <Link to='/forget-password' className='btn forget-password'>Forgot your password ?</Link>
+                    <Link to='/forgot-password' className='btn forgot-password'>Forgot your password ?</Link>
                 </FormGroup>
                 <p className='another-choice'>
                     Don't have an account ?<br /> <Link to='/signup' className='btn'>Sign up now</Link>

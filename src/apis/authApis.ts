@@ -17,12 +17,16 @@ const AuthApis = {
     return response
   },
 
-  // CHECK AUTH API
-  async checkAuth() {
-    interface IResponse {
-      authenticated?: boolean
-    }
-    const response: IResponse | undefined = await AxiosApis.get(`${URL}/check`)
+  // FORGOT PASSWORD API
+  async forgotPass(data: object) {
+    const response: object | undefined = await AxiosApis.post(`${URL}/forgot-password`, data)
+
+    return response
+  },
+
+  // RESET PASSWORD API
+  async resetPass(data: object, token: string) {
+    const response: object | undefined = await AxiosApis.post(`${URL}/reset-password/${token}`, data)
 
     return response
   },

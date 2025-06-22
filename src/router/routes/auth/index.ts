@@ -1,6 +1,8 @@
 // ** import views
 import Login from '../../../views/auth/Login'
 import SignUp from '../../../views/auth/SignUp'
+import ForgotPassword from '../../../views/auth/ForgotPassword'
+import ResetPassword from '../../../views/auth/ResetPassword'
 
 interface Iroute {
     path: string
@@ -17,6 +19,16 @@ const authRoutes: Iroute[] = [
     {
         path: '/signup',
         component: SignUp,
+        layout: 'auth'
+    },
+    {
+        path: '/forgot-password',
+        component: ForgotPassword,
+        layout: 'auth'
+    },
+    {
+        path: '/reset-password/:token',
+        component: ResetPassword,
         layout: 'auth'
     }
 ]
